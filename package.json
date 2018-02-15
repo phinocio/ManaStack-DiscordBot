@@ -1,0 +1,14 @@
+{
+  "name": "manastack-discordbot",
+  "version": "0.0.1-a",
+  "description": "Bot for ManaStack discord server",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Phinocio",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.3.0"
+  }
+}
