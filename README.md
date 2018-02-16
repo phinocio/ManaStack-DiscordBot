@@ -1,0 +1,1 @@
+Discord bot for ManaStack discord server
