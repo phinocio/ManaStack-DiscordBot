@@ -2,7 +2,6 @@
 
 // JSON config files
 const auth = require("./auth.json");
-const manastack = require("./manastack.json");
 
 // npm includes
 const Discord = require("discord.js");
