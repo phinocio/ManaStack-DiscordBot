@@ -9,7 +9,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 
 // Classes
-const CommandHander = require("./src/Handlers/CommandHandler.js");
+const CommandHandler = require("./src/Handlers/CommandHandler.js");
 
 const prefix = "!";
 
@@ -20,7 +20,7 @@ client.on("ready", () => {
 client.on("message", (message) => {
     if(message.content.startsWith(prefix))
     {
-        new CommandHander(message);
+        new CommandHandler(message);
     }
 });
 
