@@ -1,9 +1,9 @@
-"use strict";
-
 const CardSearch = require("./../Commands/CardSearch.js");
 
 class CommandHandler
 {
+    
+
     constructor(message)
     {
         this.handle(message);
@@ -11,11 +11,16 @@ class CommandHandler
 
     handle(message) 
     {
+        const commandsList = {
+            "cs": CardSearch,
+            "cardsearch": CardSearch
+        }
+
         let command = message.content.replace("!", "").split(" ")[0].toLowerCase();
 
-        if(command === "cs" || command === "cardsearch")
+        if(commandsList[command])
         {
-            new CardSearch(message);
+            new commandsList[command](message);
         } else if(command === '') 
         {
             return;

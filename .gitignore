@@ -1,4 +1,4 @@
-auth.json
-manastack.json
-discord.json
+config/auth.json
+config/manastack.json
+config/discord.json
 node_modules/
