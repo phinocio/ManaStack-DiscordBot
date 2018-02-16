@@ -2,7 +2,7 @@
 
 const fetch = require("node-fetch");
 const Discord = require("discord.js");
-const manastack = require("./../../manastack.json");
+const manastack = require("./../../config/manastack.json");
 
 class CardSearch
 {
