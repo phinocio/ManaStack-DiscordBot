@@ -1,0 +1,9 @@
+{
+    "api": {
+        "key": "value",
+
+        "cardSearch": {
+            "key": "value"
+        }
+    }
+}

@@ -1,14 +1,26 @@
+"use strict";
+
+// JSON config files
 const auth = require("./auth.json");
+const manastack = require("./manastack.json");
+
+// npm includes
 const Discord = require("discord.js");
 const client = new Discord.Client();
+
+// Classes
+const CommandHander = require("./src/Handlers/CommandHandler.js");
+
+const prefix = "!";
 
 client.on("ready", () => {
     console.log("I am ready!");
 });
 
 client.on("message", (message) => {
-    if (message.content.startsWith("ping")) {
-        message.channel.send("meth is a noob");
+    if(message.content.startsWith(prefix))
+    {
+        new CommandHander(message);
     }
 });
 
