@@ -1,3 +1,5 @@
+"use strict";
+
 const CardSearch = require("./../Commands/CardSearch.js");
 
 class CommandHandler
