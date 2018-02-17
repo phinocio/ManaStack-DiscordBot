@@ -1,5 +1,3 @@
-"use strict";
-
 const fetch = require("node-fetch");
 const Discord = require("discord.js");
 const manastack = require("./../../config/manastack.json");
