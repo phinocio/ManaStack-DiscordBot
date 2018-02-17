@@ -9,9 +9,7 @@ class CommandHandler
 
         if(MiscCommandsList[command])
         {
-
             this.respond__miscCommand(message, command);
-
         } else {
             for(var key in CommandsList)
             {
@@ -35,4 +33,4 @@ class CommandHandler
     }
 }
 
-module.exports = CommandHandler;   
+module.exports = CommandHandler;    
