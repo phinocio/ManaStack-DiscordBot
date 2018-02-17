@@ -1,4 +1,5 @@
 const CommandsList = require("./../Commands/CommandsList.js");
+const MiscCommandsList = require("./../Commands/MiscCommandsList.js");
 
 class CommandHandler
 {
@@ -6,16 +7,32 @@ class CommandHandler
     {
         let command = message.content.replace("!", "").split(" ")[0].toLowerCase();
 
-        for(var commands in CommandsList)
+        if(MiscCommandsList[command])
         {
-            var keys = commands.split("|");
 
-            if(keys.includes(command))
+            this.respond__miscCommand(message, command);
+
+        } else {
+            for(var key in CommandsList)
             {
-                new CommandsList[commands].command(message);
+                var keys = key.split("|");
+
+                if (keys.includes(command)) {
+                    this.respond__Command(message, key, command);
+                }
             }
         }
     }
+
+    respond__Command(message, key, command)
+    {
+        new CommandsList[key].command(message);
+    }
+
+    respond__miscCommand(message, command)
+    {
+        message.channel.send(MiscCommandsList[command]);
+    }
 }
 
-module.exports = CommandHandler;    
+module.exports = CommandHandler;   

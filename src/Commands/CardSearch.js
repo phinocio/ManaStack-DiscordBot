@@ -44,9 +44,9 @@ class CardSearch
 
                     this.respond(message, cardSearch);
                 } else {
-
                     cardSearch.setTitle("Card Not Found");
                     cardSearch.setDescription("Query: " + cardName);
+                    
                     this.respond(message, cardSearch);
                 }
 
