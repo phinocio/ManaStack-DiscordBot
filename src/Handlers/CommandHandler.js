@@ -1,31 +1,19 @@
-const CardSearch = require("./../Commands/CardSearch.js");
+const CommandsList = require("./../Commands/CommandsList.js");
 
 class CommandHandler
 {
-    
-
-    constructor(message)
+    handle(message)
     {
-        this.handle(message);
-    }
-
-    handle(message) 
-    {
-        const commandsList = {
-            "cs": CardSearch,
-            "cardsearch": CardSearch
-        }
-
         let command = message.content.replace("!", "").split(" ")[0].toLowerCase();
 
-        if(commandsList[command])
+        for(var commands in CommandsList)
         {
-            new commandsList[command](message);
-        } else if(command === '') 
-        {
-            return;
-        } else {
-            message.channel.send("**Unknown Command:** " + command);
+            var keys = commands.split("|");
+
+            if(keys.includes(command))
+            {
+                new CommandsList[commands].command(message);
+            }
         }
     }
 }
