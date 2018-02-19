@@ -76,7 +76,7 @@ class CardSearch
                     cardSearch.setTitle(json[0].name + " " + json[0].mana_cost);
                     cardSearch.setColor("BLUE");
                     cardSearch.setImage(encodeURI(manastack.api.images + json[0].set.slug + "/" + json[0].image + ".jpg"));
-                    cardSearch.setDescription(json[0].type + "\n" + json[0].set.name + "\n\n" + json[0].text + "*");
+                    cardSearch.setDescription(json[0].type + "\n" + json[0].set.name + "\n\n" + json[0].text);
 
                     if (json.length > 1) {
 
