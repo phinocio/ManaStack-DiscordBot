@@ -3,9 +3,9 @@ const MiscCommandsList = require("./../Commands/MiscCommandsList.js");
 
 class CommandHandler
 {
-    handle(message)
+    handle(message, prefix)
     {
-        let command = message.content.replace("!", "").split(" ")[0].toLowerCase();
+        let command = message.content.replace(prefix, "").split(" ")[0].toLowerCase();
 
         if(MiscCommandsList[command])
         {

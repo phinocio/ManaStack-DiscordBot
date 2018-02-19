@@ -33,7 +33,7 @@ class Bot {
         this.client.on("message", (message) => {
             if(message.content.startsWith(this.prefix) && message.content.length > 1)
             {
-                this.CommandHandler.handle(message);
+                this.CommandHandler.handle(message, this.prefix);
             } else {
                 return;
             }
