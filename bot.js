@@ -1,26 +1,50 @@
-"use strict";
-
 // JSON config files
-const auth = require("./auth.json");
+const auth = require("./config/auth.json");
 
 // npm includes
 const Discord = require("discord.js");
-const client = new Discord.Client();
 
 // Classes
 const CommandHandler = require("./src/Handlers/CommandHandler.js");
 
-const prefix = "!";
+class Bot {
 
-client.on("ready", () => {
-    console.log("I am ready!");
-});
-
-client.on("message", (message) => {
-    if(message.content.startsWith(prefix))
+    constructor()
     {
-        new CommandHandler(message);
-    }
-});
+        
+        this.client = new Discord.Client();
+        this.CommandHandler = new CommandHandler();
+        this.prefix = "!";
 
-client.login(auth.token);
+        this.login();
+        this.on__message();
+
+        this.client.on("ready", () => {
+            console.log("I am ready!");
+        });
+    }
+
+    login() {
+        this.client.login(auth.token);
+    }
+
+    on__message()
+    {
+        this.client.on("message", (message) => {
+            if(message.content.startsWith(this.prefix) && message.content.length > 1)
+            {
+                this.CommandHandler.handle(message, this.prefix);
+            } else {
+                return;
+            }
+        }); 
+    }
+}
+
+const bot = new Bot();
+
+
+
+
+
+

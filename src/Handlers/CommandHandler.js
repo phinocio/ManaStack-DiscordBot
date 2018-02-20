@@ -1,27 +1,35 @@
-"use strict";
-
-const CardSearch = require("./../Commands/CardSearch.js");
+const CommandsList = require("./../Commands/CommandsList.js");
+const MiscCommandsList = require("./../Commands/MiscCommandsList.js");
 
 class CommandHandler
 {
-    constructor(message)
+    handle(message, prefix)
     {
-        this.handle(message);
+        let command = message.content.replace(prefix, "").split(" ")[0].toLowerCase();
+
+        if(MiscCommandsList[command])
+        {
+            this.respond__miscCommand(message, command);
+        } else {
+            for(var key in CommandsList)
+            {
+                var keys = key.split("|");
+
+                if (keys.includes(command)) {
+                    this.respond__Command(message, key, command);
+                }
+            }
+        }
     }
 
-    handle(message) 
+    respond__Command(message, key, command)
     {
-        let command = message.content.replace("!", "").split(" ")[0].toLowerCase();
+        new CommandsList[key].command(message);
+    }
 
-        if(command === "cs" || command === "cardsearch")
-        {
-            new CardSearch(message);
-        } else if(command === '') 
-        {
-            return;
-        } else {
-            message.channel.send("**Unknown Command:** " + command);
-        }
+    respond__miscCommand(message, command)
+    {
+        message.channel.send(MiscCommandsList[command]);
     }
 }
 
