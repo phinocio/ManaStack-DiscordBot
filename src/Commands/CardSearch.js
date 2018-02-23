@@ -2,69 +2,53 @@ const fetch = require("node-fetch");
 const Discord = require("discord.js");
 const manastack = require("./../../config/manastack.json");
 
-
-
 class CardSearch
 {
-    constructor(message)
-    { 
-        this.cardName = "";
-        this.search = "";
-        this.query = message.content;
-        this.result = "";
-
-        // Card search fields 
-        this.set = "";
-        this.text = "";
-        this.type = "";
-
-        this.handle(message);
-    }
 
     handle(message)
     {
-        // create the RichEmbed box
-        // if(this.query.indexOf("--") > 0)
-        // {
-        //     this.cardName = message.content.substring(message.content.indexOf(" ")).split(" --")[1].trim();
-        // } else {
-        //     this.cardName = message.content.substring(message.content.indexOf(" ")).trim();
-        // }
-
-        this.search = this.query.substring(this.query.indexOf(" ")).split(" --");
-        this.cardName = this.search[0].trim();
-        this.checkFlags(this.search, message);
-        this.getResult(message);
-
-
-
-        //TODO: Check if flag exists
-        //this.searchByName(message, cardName);
+        let search = message.content.substring(message.content.indexOf(" ")).split(" --");
+        let flags = this.checkFlags(search, message);
+        this.getResult(search[0].trim(), message, flags);
     }
 
     checkFlags(search, message)
     {
+        let flags = {
+            "set": '',
+            "text": '',
+            "type": ''
+        };
 
         for(var i = 1; i < search.length; i++)
-        {
+        {   
             var flag = search[i].split(" ");
+
+            flag = flag[0].trim();
+            var searchText = search[i].substring(search[i].indexOf(" ", 1)).trim();
             
-            if (["s", "set", "sets"].includes(flag[0].trim()))
+            if (["s", "set", "sets"].includes(flag))
             {
-                this.set = search[i].substring(search[i].indexOf(" ", 1)).trim();
+                flags["set"] = searchText;
             }
-            if (["t", "text"].includes(flag[0].trim())) {
-                this.text = search[i].substring(search[i].indexOf(" ", 1)).trim();
-            }
-            if (["ty", "type"].includes(flag[0].trim())) {
-                this.type = search[i].substring(search[i].indexOf(" ", 1)).trim();
-            }
+
+            if (["t", "text"].includes(flag)) 
+            {
+                flags["text"] = searchText;
+            } 
+
+            if (["ty", "type"].includes(flag)) 
+            {
+                flags["type"] = searchText;
+            } 
         }
+        return flags;
     }
 
-    getResult(message)
+    getResult(cardName, message, flags)
     {
-        fetch(manastack.api.cardSearch.single + this.cardName + "&sets=" + this.set + "&text=" + this.text + "&type=" + this.type + "&limit=5")
+        console.log(flags);
+        fetch(manastack.api.cardSearch.single + cardName + "&sets=" + flags["set"] + "&text=" + flags["text"] + "&type=" + flags["type"] + "&limit=5")
             .then(res => res.json())
             .then(json => {
 
@@ -93,7 +77,7 @@ class CardSearch
                     this.respond(message, cardSearch);
                 } else {
                     cardSearch.setTitle("Card Not Found");
-                    cardSearch.setDescription("Query: " + this.cardName);
+                    cardSearch.setDescription("Query: " + cardName);
 
                     this.respond(message, cardSearch);
                 }
