@@ -1,27 +1,58 @@
-"use strict";
-
-const CardSearch = require("./../Commands/CardSearch.js");
+const CommandsList = require("./../Commands/CommandsList.js");
+const MiscCommands = require("./../Commands/MiscCommands.js");
 
 class CommandHandler
 {
-    constructor(message)
+
+    constructor() 
     {
-        this.handle(message);
+        this.commandsMap = new Map();
     }
 
-    handle(message) 
+    handle(message, prefix)
     {
-        let command = message.content.replace("!", "").split(" ")[0].toLowerCase();
+        let command = message.content.replace(prefix, "").split(" ")[0].toLowerCase();
 
-        if(command === "cs" || command === "cardsearch")
+        if(MiscCommands[command])
         {
-            new CardSearch(message);
-        } else if(command === '') 
-        {
-            return;
+
+            this.respondMiscCommand(message, command);
+
         } else {
-            message.channel.send("**Unknown Command:** " + command);
+
+            for(var key in CommandsList)
+            {
+                var keys = key.split("|");
+
+                if (keys.includes(command)) {
+                    this.respondCommand(message, key, command);
+                }
+            }
         }
+    }
+
+    respondCommand(message, key, command)
+    {
+        if(this.commandsMap.has(key))
+        {
+            let commandObject = this.commandsMap.get(key);
+            commandObject.handle(message);
+
+            //console.log("Mapped Command Called!");
+        } else {
+
+            let commandObject = new CommandsList[key].command;
+
+            this.commandsMap.set(key, commandObject);
+            commandObject.handle(message);
+            // console.log(this.commandsMap);
+            // console.log("Command Mapped!");
+        }
+    }
+
+    respondMiscCommand(message, command)
+    {
+        message.channel.send(MiscCommands[command]);
     }
 }
 
