@@ -10,6 +10,6 @@ const CommandsList = {
 		"command": Help,
 		"description": "Get help on how to use the bot. \"!help commands\" shows a list of commands."
 	}
-}
+};
 
 module.exports = CommandsList;
