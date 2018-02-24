@@ -9,42 +9,36 @@ const CommandHandler = require("./src/Handlers/CommandHandler.js");
 
 class Bot {
 
-    constructor()
-    {
-        
-        this.client = new Discord.Client();
-        this.CommandHandler = new CommandHandler();
-        this.prefix = "!";
+	constructor() {
 
-        this.login();
-        this.onMessage();
+		this.client = new Discord.Client();
+		this.CommandHandler = new CommandHandler();
+		this.prefix = "!";
+	}
 
-        this.client.on("ready", () => {
-            console.log("I am ready!");
-        });
-    }
+	run() {
+		this.login();
+		this.onMessage();
 
-    login() {
-        this.client.login(auth.token);
-    }
+		this.client.on("ready", () => {
+			console.log("I am ready!");
+		});
+	}
 
-    onMessage()
-    {
-        this.client.on("message", (message) => {
-            if(message.content.startsWith(this.prefix) && message.content.length > 1)
-            {
-                this.CommandHandler.handle(message, this.prefix);
-            } else {
-                return;
-            }
-        }); 
-    }
+	login() {
+		this.client.login(auth.token);
+	}
+
+	onMessage() {
+		this.client.on("message", (message) => {
+			if (message.content.startsWith(this.prefix) && message.content.length > 1) {
+				this.CommandHandler.handle(message, this.prefix);
+			} else {
+				return;
+			}
+		});
+	}
 }
 
 const bot = new Bot();
-
-
-
-
-
-
+bot.run();
