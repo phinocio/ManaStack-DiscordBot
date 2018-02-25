@@ -14,6 +14,7 @@ class Bot {
 		this.client = new Discord.Client();
 		this.CommandHandler = new CommandHandler();
 		this.prefix = "!";
+		this.delimiter = ["|", "—", "--"];
 	}
 
 	run() {

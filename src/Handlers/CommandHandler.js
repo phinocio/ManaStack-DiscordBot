@@ -23,23 +23,24 @@ class CommandHandler {
 					this.respondCommand(message, key);
 				}
 			}
-		}
+		}	
 	}
 
 	respondCommand(message, key) {
-		if (this.commandsMap.has(key)) {
+
+		if (this.commandsMap.has(key)) 
+		{
+
 			let commandObject = this.commandsMap.get(key);
 			commandObject.handle(message);
 
-			//console.log("Mapped Command Called!");
-		} else {
+		}  else {
 
-			let commandObject = new CommandsList[key].command;
+			let commandObject = new CommandsList[key].command(CommandsList, MiscCommands);
 
 			this.commandsMap.set(key, commandObject);
 			commandObject.handle(message);
-			// console.log(this.commandsMap);
-			// console.log("Command Mapped!");
+
 		}
 	}
 
