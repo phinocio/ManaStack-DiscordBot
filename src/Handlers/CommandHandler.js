@@ -1,35 +1,58 @@
 const CommandsList = require("./../Commands/CommandsList.js");
-const MiscCommandsList = require("./../Commands/MiscCommandsList.js");
+const MiscCommands = require("./../Commands/MiscCommands.js");
 
 class CommandHandler
 {
+
+    constructor() 
+    {
+        this.commandsMap = new Map();
+    }
+
     handle(message, prefix)
     {
         let command = message.content.replace(prefix, "").split(" ")[0].toLowerCase();
 
-        if(MiscCommandsList[command])
+        if(MiscCommands[command])
         {
-            this.respond__miscCommand(message, command);
+
+            this.respondMiscCommand(message, command);
+
         } else {
+
             for(var key in CommandsList)
             {
                 var keys = key.split("|");
 
                 if (keys.includes(command)) {
-                    this.respond__Command(message, key, command);
+                    this.respondCommand(message, key, command);
                 }
             }
         }
     }
 
-    respond__Command(message, key, command)
+    respondCommand(message, key, command)
     {
-        new CommandsList[key].command(message);
+        if(this.commandsMap.has(key))
+        {
+            let commandObject = this.commandsMap.get(key);
+            commandObject.handle(message);
+
+            //console.log("Mapped Command Called!");
+        } else {
+
+            let commandObject = new CommandsList[key].command;
+
+            this.commandsMap.set(key, commandObject);
+            commandObject.handle(message);
+            // console.log(this.commandsMap);
+            // console.log("Command Mapped!");
+        }
     }
 
-    respond__miscCommand(message, command)
+    respondMiscCommand(message, command)
     {
-        message.channel.send(MiscCommandsList[command]);
+        message.channel.send(MiscCommands[command]);
     }
 }
 

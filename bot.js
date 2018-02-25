@@ -17,7 +17,7 @@ class Bot {
         this.prefix = "!";
 
         this.login();
-        this.on__message();
+        this.onMessage();
 
         this.client.on("ready", () => {
             console.log("I am ready!");
@@ -28,7 +28,7 @@ class Bot {
         this.client.login(auth.token);
     }
 
-    on__message()
+    onMessage()
     {
         this.client.on("message", (message) => {
             if(message.content.startsWith(this.prefix) && message.content.length > 1)
