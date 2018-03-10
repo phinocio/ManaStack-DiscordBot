@@ -1,59 +1,48 @@
-const CommandsList = require("./../Commands/CommandsList.js");
+const CommandManager = require("./../Commands/CommandManager.js");
 const MiscCommands = require("./../Commands/MiscCommands.js");
 
 class CommandHandler
 {
 
-    constructor() 
-    {
-        this.commandsMap = new Map();
-    }
+	constructor()
+	{
+		this.commandsMap = new Map();
+	}
 
-    handle(message, prefix)
-    {
-        let command = message.content.replace(prefix, "").split(" ")[0].toLowerCase();
+	handle(message, prefix)
+	{
+		let commandList = CommandManager.getCommandList();
+		let command = message.content.replace(prefix, "").split(" ")[0].toLowerCase();
 
-        if(MiscCommands[command])
-        {
+		if(MiscCommands[command]) {
+			this.respondMiscCommand(message, command);
+		} else {
+			for(var key in commandList) {
+				var keys = key.split("|");
+				if (keys.includes(command)) {
+					this.respondCommand(message, key, command);
+				}
+			}
+		}
+	}
 
-            this.respondMiscCommand(message, command);
+	respondCommand(message, key, command)
+	{
+		let commandList = CommandManager.getCommandList();
+		if(this.commandsMap.has(key)) {
+			let commandObject = this.commandsMap.get(key);
+			commandObject.handle(message);
+		} else {
+			let commandObject = new commandList[key].command(CommandManager);
+			this.commandsMap.set(key, commandObject);
+			commandObject.handle(message);
+		}
+	}
 
-        } else {
-
-            for(var key in CommandsList)
-            {
-                var keys = key.split("|");
-
-                if (keys.includes(command)) {
-                    this.respondCommand(message, key, command);
-                }
-            }
-        }
-    }
-
-    respondCommand(message, key, command)
-    {
-        if(this.commandsMap.has(key))
-        {
-            let commandObject = this.commandsMap.get(key);
-            commandObject.handle(message);
-
-            //console.log("Mapped Command Called!");
-        } else {
-
-            let commandObject = new CommandsList[key].command;
-
-            this.commandsMap.set(key, commandObject);
-            commandObject.handle(message);
-            // console.log(this.commandsMap);
-            // console.log("Command Mapped!");
-        }
-    }
-
-    respondMiscCommand(message, command)
-    {
-        message.channel.send(MiscCommands[command]);
-    }
+	respondMiscCommand(message, command)
+	{
+		message.channel.send(MiscCommands[command]);
+	}
 }
 
-module.exports = CommandHandler;    
+module.exports = CommandHandler;
