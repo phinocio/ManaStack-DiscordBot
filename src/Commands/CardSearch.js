@@ -9,7 +9,7 @@ class CardSearch extends Command
 	{	
 		
 		//Check for an em-dash because iOS is dumb af and changes -- to —
-		if (message.content.indexOf("—") > 0)
+		while(message.content.indexOf("—") > 0)
 		{
 			message.content = message.content.replace("—", "--");
 		}
