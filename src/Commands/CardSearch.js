@@ -6,9 +6,16 @@ const Command = require('./Command');
 class CardSearch extends Command
 {
 	handle(message)
-	{
+	{	
+		
+		//Check for an em-dash because iOS is dumb af and changes -- to —
+		if (message.content.indexOf("—") > 0)
+		{
+			message.content = message.content.replace("—", "--");
+		}
 		let search = message.content.substring(message.content.indexOf(" ")).split(" --");
 		let flags = this.checkFlags(search, message);
+		
 		this.getResult(search[0].trim(), message, flags);
 	}
 
