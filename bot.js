@@ -1,11 +1,13 @@
 // JSON config files
 const auth = require("./config/auth.json");
+const ManaStack = require("./config/manastack.json");
 
 // npm includes
 const Discord = require("discord.js");
 
-// Classes
+// Classessc
 const CommandHandler = require("./src/Handlers/CommandHandler.js");
+const TwitterFeed = require("./src/Feeds/Twitter");
 
 class Bot {
 
@@ -20,6 +22,14 @@ class Bot {
 
 		this.client.on("ready", () => {
 			console.log("I am ready!");
+			this.client.user.setActivity("!h or !help");
+
+			this.TwitterFeed = new TwitterFeed(this.client);
+
+			setInterval(() => {
+				this.TwitterFeed.checkTwitter();
+			}, ManaStack.api.social.twitter.updateInterval);	
+
 		});
 	}
 
@@ -31,7 +41,7 @@ class Bot {
 	onMessage()
 	{
 		this.client.on("message", (message) => {
-			if (message.content.startsWith(this.prefix) && message.content.length > 1) {
+			if (message.content.startsWith(this.prefix) && message.content.length > 1 && !message.author.bot) {
 				this.CommandHandler.handle(message, this.prefix);
 			} else {
 				return;
