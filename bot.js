@@ -24,11 +24,11 @@ class Bot {
 			console.log("I am ready!");
 			this.client.user.setActivity("!h or !help");
 
-			this.TwitterFeed = new TwitterFeed(this.client);
+			//this.TwitterFeed = new TwitterFeed(this.client);
 
-			setInterval(() => {
-				this.TwitterFeed.checkTwitter();
-			}, ManaStack.api.social.twitter.updateInterval);	
+			// setInterval(() => {
+			// 	this.TwitterFeed.checkTwitter();
+			// }, ManaStack.api.social.twitter.updateInterval);	
 
 		});
 	}
@@ -46,6 +46,13 @@ class Bot {
 			} else {
 				return;
 			}
+		});
+	}
+
+	onUserJoin()
+	{
+		client.on("guildMemberAdd", (member) => {
+			newUsers.set(member.id, member.user);
 		});
 	}
 }

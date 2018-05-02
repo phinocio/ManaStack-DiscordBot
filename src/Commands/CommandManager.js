@@ -1,6 +1,7 @@
 const Help = require('./Help');
 const CardSearch = require('./CardSearch');
 const Support = require("./Support");
+const Welcome = require("./Welcome");
 
 class CommandManager {
 	constructor()
@@ -21,7 +22,12 @@ class CommandManager {
 			"s|support": {
 				"command": Support,
 				"description": "List ways to support ManaStack."
-			}
+			},
+			"w|welcome": {
+				"command": Welcome,
+				"description": "Sends a Welcome"
+			},
+			
 		};
 	}
 }
